@@ -25,9 +25,11 @@
     <div class="footer-copy">
 
         <div class="container">
-            <p>© 2022 M. Khoerul Luthfi. All rights reserved</p>
+            <p>© 2022 CV. Prima Flora. All rights reserved</p>
         </div>
     </div>
+
+
 
 </div>
 <div class="footer-botm">

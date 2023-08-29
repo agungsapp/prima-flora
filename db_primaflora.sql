@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.4
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: May 13, 2020 at 10:21 AM
--- Server version: 10.3.22-MariaDB-log-cll-lve
--- PHP Version: 7.3.6
+-- Host: 127.0.0.1
+-- Generation Time: Aug 29, 2023 at 07:43 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `k0702714_tokopekita`
+-- Database: `db_primaflora`
 --
 
 -- --------------------------------------------------------
@@ -34,7 +33,7 @@ CREATE TABLE `cart` (
   `userid` int(11) NOT NULL,
   `tglorder` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` varchar(10) NOT NULL DEFAULT 'Cart'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cart`
@@ -43,7 +42,11 @@ CREATE TABLE `cart` (
 INSERT INTO `cart` (`idcart`, `orderid`, `userid`, `tglorder`, `status`) VALUES
 (10, '15wKVT0nej25Y', 2, '2020-03-16 12:10:42', 'Selesai'),
 (11, '15Swf8Ye0Fm.M', 2, '2020-03-16 12:17:34', 'Cart'),
-(12, '15PzF03ejd8W2', 1, '2020-05-13 02:40:48', 'Confirmed');
+(12, '15PzF03ejd8W2', 1, '2020-05-13 02:40:48', 'Confirmed'),
+(13, '16bldTbdCcbR.', 3, '2023-03-28 18:53:25', 'Payment'),
+(14, '16dzjQ8pxCwhU', 3, '2023-03-28 18:54:06', 'Payment'),
+(15, '16odroktheT2c', 4, '2023-08-28 10:40:22', 'Confirmed'),
+(16, '16XLam8PFKAPI', 4, '2023-08-28 11:39:47', 'Cart');
 
 -- --------------------------------------------------------
 
@@ -56,7 +59,7 @@ CREATE TABLE `detailorder` (
   `orderid` varchar(100) NOT NULL,
   `idproduk` int(11) NOT NULL,
   `qty` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `detailorder`
@@ -64,7 +67,13 @@ CREATE TABLE `detailorder` (
 
 INSERT INTO `detailorder` (`detailid`, `orderid`, `idproduk`, `qty`) VALUES
 (13, '15wKVT0nej25Y', 1, 100),
-(14, '15PzF03ejd8W2', 2, 1);
+(14, '15PzF03ejd8W2', 2, 1),
+(15, '16bldTbdCcbR.', 1, 1),
+(16, '16dzjQ8pxCwhU', 1, 1),
+(17, '16odroktheT2c', 1, 1),
+(18, '16odroktheT2c', 2, 1),
+(19, '16XLam8PFKAPI', 3, 1),
+(20, '16XLam8PFKAPI', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -76,7 +85,7 @@ CREATE TABLE `kategori` (
   `idkategori` int(11) NOT NULL,
   `namakategori` varchar(20) NOT NULL,
   `tgldibuat` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `kategori`
@@ -101,14 +110,15 @@ CREATE TABLE `konfirmasi` (
   `namarekening` varchar(25) NOT NULL,
   `tglbayar` date NOT NULL,
   `tglsubmit` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `konfirmasi`
 --
 
 INSERT INTO `konfirmasi` (`idkonfirmasi`, `orderid`, `userid`, `payment`, `namarekening`, `tglbayar`, `tglsubmit`) VALUES
-(1, '15PzF03ejd8W2', 1, 'Bank BCA', 'Admin', '2020-05-16', '2020-05-13 02:41:51');
+(1, '15PzF03ejd8W2', 1, 'Bank BCA', 'Admin', '2020-05-16', '2020-05-13 02:41:51'),
+(2, '16odroktheT2c', 4, 'Bank BCA', 'user', '2023-08-28', '2023-08-28 10:42:38');
 
 -- --------------------------------------------------------
 
@@ -126,7 +136,7 @@ CREATE TABLE `login` (
   `tgljoin` timestamp NOT NULL DEFAULT current_timestamp(),
   `role` varchar(7) NOT NULL DEFAULT 'Member',
   `lastlogin` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `login`
@@ -134,7 +144,9 @@ CREATE TABLE `login` (
 
 INSERT INTO `login` (`userid`, `namalengkap`, `email`, `password`, `notelp`, `alamat`, `tgljoin`, `role`, `lastlogin`) VALUES
 (1, 'Admin', 'admin', '$2y$10$GJVGd4ji3QE8ikTBzNyA0uLQhiGd6MirZeSJV1O6nUpjSVp1eaKzS', '01234567890', 'Indonesia', '2020-03-16 11:31:17', 'Admin', NULL),
-(2, 'Guest', 'guest', '$2y$10$xXEMgj5pMT9EE0QAx3QW8uEn155Je.FHH5SuIATxVheOt0Z4rhK6K', '01234567890', 'Indonesia', '2020-03-16 11:30:40', 'Member', NULL);
+(2, 'Guest', 'guest', '$2y$10$xXEMgj5pMT9EE0QAx3QW8uEn155Je.FHH5SuIATxVheOt0Z4rhK6K', '01234567890', 'Indonesia', '2020-03-16 11:30:40', 'Member', NULL),
+(3, 'agung saputra', 'agung.dni19@gmail.com', '$2y$10$6V37t2jsOVtfZwzGOm7UeOQuJstiTPRUuMV2F47IDTZWnNIGfPUK2', '084502526396', 'jl. jambu raya', '2023-03-28 18:53:08', 'Member', NULL),
+(4, 'user 1 ', 'user@gmail.com', '$2y$10$Y9ilu8G8mezyTvQCLHcu5.2Z4AyllHv2dWryisqc/S4tY14VP0TOG', '084455556666', 'jl. scorpio no.18 , Rajabasa . bandar Lampung', '2023-08-28 10:39:45', 'Member', NULL);
 
 -- --------------------------------------------------------
 
@@ -148,16 +160,16 @@ CREATE TABLE `pembayaran` (
   `norek` varchar(25) NOT NULL,
   `logo` text DEFAULT NULL,
   `an` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pembayaran`
 --
 
 INSERT INTO `pembayaran` (`no`, `metode`, `norek`, `logo`, `an`) VALUES
-(1, 'Bank BCA', '13131231231', 'images/bca.jpg', 'Tokopekita'),
-(2, 'Bank Mandiri', '943248844843', 'images/mandiri.jpg', 'Tokopekita'),
-(3, 'DANA', '0882313132123', 'images/dana.png', 'Tokopekita');
+(1, 'Bank BCA', '13131231231', 'images/bca.jpg', 'khoerul luthfi'),
+(2, 'Bank Mandiri', '943248844843', 'images/mandiri.jpg', 'khoerul luthfi'),
+(3, 'DANA', '0882313132123', 'images/dana.png', 'khoerul luthfi');
 
 -- --------------------------------------------------------
 
@@ -175,7 +187,7 @@ CREATE TABLE `produk` (
   `hargabefore` int(11) NOT NULL,
   `hargaafter` int(11) NOT NULL,
   `tgldibuat` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `produk`
@@ -246,13 +258,13 @@ ALTER TABLE `produk`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `idcart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idcart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `detailorder`
 --
 ALTER TABLE `detailorder`
-  MODIFY `detailid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `detailid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `kategori`
@@ -264,13 +276,13 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `konfirmasi`
 --
 ALTER TABLE `konfirmasi`
-  MODIFY `idkonfirmasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idkonfirmasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`

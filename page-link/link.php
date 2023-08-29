@@ -39,3 +39,8 @@
 		});
 	</script>
 	<!-- start-smoth-scrolling -->
+
+
+	<!-- develop by : Agung Saputra -->
+	<!-- email : agungsapp27@gmail.com -->
+	<!-- wa : 0858-3902-3590 -->
